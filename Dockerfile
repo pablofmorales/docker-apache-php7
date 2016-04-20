@@ -15,7 +15,7 @@ COPY php.ini /usr/local/etc/php
 
 RUN pecl install -o -f xdebug \
     && rm -rf /tmp/pear \
-    && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini
+    && echo "zend_extension="`find /usr/local/lib/php/extensions/ -iname 'xdebug.so'` > /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN a2enmod rewrite
 #RUN apache2-foreground
@@ -34,6 +34,8 @@ RUN chmod a+x /usr/local/bin/phpunit
 RUN echo "\n<FilesMatch \\.php$>\nSetHandler application/x-httpd-php\n</FilesMatch>" >> /etc/apache2/apache2.conf
 
 EXPOSE 80
+
+ENV APP_ENV=dev
 
 RUN service apache2 restart
 
