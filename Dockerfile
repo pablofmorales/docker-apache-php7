@@ -8,7 +8,7 @@ RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql mbstring
 
 # for mongodb pecl package
 # (http://stackoverflow.com/questions/34086590/error-installing-php-mongo-driver-after-php5-upgrade):
-RUN apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev libpcre3-dev
+RUN apt-get install -y autoconf g++ make openssl libssl-dev libcurl4-openssl-dev pkg-config libsasl2-dev
 RUN pecl install mongodb
 
 COPY php.ini /usr/local/etc/php
