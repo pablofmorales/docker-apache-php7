@@ -4,7 +4,7 @@ MAINTAINER Pablo Morales <pablofmorales@gmail.com>
 
 RUN apt-get -y update
 RUN apt-get install -y mysql-client git zip wget
-RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql
+RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql mbstring
 
 # for mongodb pecl package
 # (http://stackoverflow.com/questions/34086590/error-installing-php-mongo-driver-after-php5-upgrade):
