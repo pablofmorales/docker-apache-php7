@@ -3,7 +3,7 @@ FROM php:7.0.4-apache
 MAINTAINER Pablo Morales <pablofmorales@gmail.com>
 
 RUN apt-get -y update
-RUN apt-get install -y mysql-client git zip wget
+RUN apt-get install -y mysql-client git zip wget vim
 RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql mbstring
 
 # for mongodb pecl package
