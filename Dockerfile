@@ -3,7 +3,7 @@ FROM php:7.0.4-apache
 MAINTAINER Pablo Morales <pablofmorales@gmail.com>
 
 RUN apt-get -y update
-RUN apt-get install -y mysql-client git zip wget bcmath
+RUN apt-get install -y mysql-client git zip wget bcmath vim
 RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql mbstring
 
 # for mongodb pecl package
@@ -22,6 +22,8 @@ COPY php.ini /usr/local/etc/php
 RUN pecl install -o -f xdebug \
     && rm -rf /tmp/pear \
     && echo "zend_extension="`find /usr/local/lib/php/extensions/ -iname 'xdebug.so'` > /usr/local/etc/php/conf.d/xdebug.ini
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN a2enmod rewrite
 #RUN apache2-foreground
