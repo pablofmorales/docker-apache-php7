@@ -3,8 +3,8 @@ FROM php:7.0.4-apache
 MAINTAINER Pablo Morales <pablofmorales@gmail.com>
 
 RUN apt-get -y update
-RUN apt-get install -y mysql-client git zip wget bcmath vim
-RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql mbstring
+RUN apt-get install -y git zip wget vim
+RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql mbstring bcmath
 
 # for mongodb pecl package
 # (http://stackoverflow.com/questions/34086590/error-installing-php-mongo-driver-after-php5-upgrade):
@@ -21,8 +21,8 @@ COPY php.ini /usr/local/etc/php
 
 RUN pecl install -o -f xdebug \
     && rm -rf /tmp/pear \
-    && echo "zend_extension="`find /usr/local/lib/php/extensions/ -iname 'xdebug.so'` > /usr/local/etc/php/conf.d/xdebug.ini
-    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini
+    && echo "zend_extension="`find /usr/local/lib/php/extensions/ -iname 'xdebug.so'` > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN a2enmod rewrite
