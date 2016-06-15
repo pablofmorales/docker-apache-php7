@@ -3,7 +3,9 @@ FROM php:7.0.4-apache
 MAINTAINER Pablo Morales <pablofmorales@gmail.com>
 
 RUN apt-get -y update
-RUN apt-get install -y git zip wget vim
+RUN apt-get install -y git zip wget vim g++
+
+
 RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql mbstring bcmath
 
 # for mongodb pecl package
@@ -14,6 +16,10 @@ RUN apt-get install -y ant --fix-missing
 RUN apt-get install -y autoconf g++ make
 RUN apt-get install -y openssl libssl-dev libcurl4-openssl-dev
 RUN apt-get install -y pkg-config libsasl2-dev
+
+RUN apt-get install -y libicu-dev
+RUN pecl install intl
+RUN docker-php-ext-install intl
 
 RUN pecl install mongodb
 
