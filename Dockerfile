@@ -3,14 +3,16 @@ FROM php:7.0.4-apache
 MAINTAINER Pablo Morales <pablofmorales@gmail.com>
 
 RUN apt-get -y update
-RUN apt-get install -y git zip wget vim g++
+# essentials
+RUN apt-get install -y git zip wget g++
+# nice-to-haves
+RUN apt-get install -y vim silversearcher-ag
 
 
 RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql mbstring bcmath
 
 # for mongodb pecl package
 # (http://stackoverflow.com/questions/34086590/error-installing-php-mongo-driver-after-php5-upgrade):
-RUN apt-get -y update
 RUN apt-get install -y libsndfile1 --no-install-recommends
 RUN apt-get install -y ant --fix-missing
 RUN apt-get install -y autoconf g++ make
@@ -26,10 +28,12 @@ RUN pecl install mongodb
 COPY php.ini /usr/local/etc/php
 
 RUN pecl install -o -f xdebug \
-    && rm -rf /tmp/pear \
-    && echo "zend_extension="`find /usr/local/lib/php/extensions/ -iname 'xdebug.so'` > /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+    && rm -rf /tmp/pear
+
+ENV XDEBUGINI_PATH
+RUN echo "zend_extension="`find /usr/local/lib/php/extensions/ -iname 'xdebug.so'` > $XDEBUGINI_PATH
+RUN cat xdebug.ini >> $XDEBUGINI_PATH
+RUN echo "xdebug.remote_host="`/sbin/ip route|awk '/default/ { print $3 }'` >> $XDEBUGINI_PATH
 
 RUN a2enmod rewrite
 #RUN apache2-foreground
@@ -53,5 +57,6 @@ RUN echo "\n<FilesMatch \\.php$>\nSetHandler application/x-httpd-php\n</FilesMat
 EXPOSE 80
 
 ENV APP_ENV=dev
+ENV TERM=xterm
 
 RUN service apache2 restart
