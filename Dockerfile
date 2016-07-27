@@ -55,3 +55,5 @@ EXPOSE 80
 ENV APP_ENV=dev
 
 RUN service apache2 restart
+
+CMD mkdir /root/.composer
