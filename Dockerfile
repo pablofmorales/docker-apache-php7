@@ -30,7 +30,7 @@ COPY php.ini /usr/local/etc/php
 RUN pecl install -o -f xdebug \
     && rm -rf /tmp/pear
 
-ENV XDEBUGINI_PATH
+ENV XDEBUGINI_PATH=/usr/local/etc/php/conf.d/xdebug.ini
 RUN echo "zend_extension="`find /usr/local/lib/php/extensions/ -iname 'xdebug.so'` > $XDEBUGINI_PATH
 RUN cat xdebug.ini >> $XDEBUGINI_PATH
 RUN echo "xdebug.remote_host="`/sbin/ip route|awk '/default/ { print $3 }'` >> $XDEBUGINI_PATH
