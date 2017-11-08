@@ -4,6 +4,7 @@ MAINTAINER Pablo Morales <pablofmorales@gmail.com>
 
 RUN apt-get -y update
 # essentials
+RUN apt-get install -y build-essential
 RUN apt-get install -y git zip wget g++
 # nice-to-have
 RUN apt-get install -y vim silversearcher-ag
@@ -15,11 +16,11 @@ RUN apt-get install -y libsndfile1 --no-install-recommends
 RUN apt-get install -y ant --fix-missing
 RUN apt-get install -y autoconf g++ make
 RUN apt-get install -y openssl libssl-dev libcurl4-openssl-dev
-RUN apt-get install -y pkg-config libsasl2-dev
+RUN apt-get install -y pkg-config libsasl2-dev zlib1g-dev libpng-dev
 
 RUN apt-get install -y libicu-dev
 RUN pecl install intl
-RUN docker-php-ext-install intl
+RUN docker-php-ext-install intl gd mbstring
 
 RUN pecl install mongodb
 
