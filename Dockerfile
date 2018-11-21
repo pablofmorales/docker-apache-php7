@@ -1,4 +1,4 @@
-FROM php:7.2.0-apache
+FROM php:7.1.13-apache
 
 MAINTAINER Pablo Morales <pablofmorales@gmail.com>
 
